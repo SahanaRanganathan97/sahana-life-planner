@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahana's Life Planner 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #f472b6; --pink-light: #fdf2f8; --pink-mid: #fce7f3;
+    --purple: #8b5cf6; --purple-light: #f5f3ff; --purple-mid: #ede9fe;
+    --green: #10b981; --green-light: #f0fdf4; --green-mid: #d1fae5;
+    --amber: #f59e0b; --amber-light: #fffbeb; --amber-mid: #fef3c7;
+    --red: #ef4444; --red-light: #fef2f2; --red-mid: #fee2e2;
+    --blue: #3b82f6; --blue-light: #eff6ff; --blue-mid: #dbeafe;
+    --teal: #14b8a6; --teal-light: #f0fdfa; --teal-mid: #ccfbf1;
+    --orange: #f97316; --orange-light: #fff7ed; --orange-mid: #ffedd5;
+    --gray: #6b7280; --gray-light: #f9fafb; --gray-mid: #f3f4f6;
+    --text: #111827; --text2: #374151; --text3: #6b7280; --text4: #9ca3af;
+    --border: #e5e7eb; --border2: #d1d5db;
+    --bg: #ffffff; --bg2: #f9fafb; --bg3: #f3f4f6;
+    --radius: 12px; --radius-sm: 8px; --radius-lg: 16px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #faf9f7; color: var(--text); min-height: 100vh; }
+
+  /* HEADER */
+  .header {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0 0;
+  }
+  .header-brand { display: flex; align-items: center; gap: 10px; }
+  .header-brand .logo {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, #f472b6, #8b5cf6);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .header-brand h1 { font-size: 17px; font-weight: 600; color: var(--text); }
+  .header-brand p { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .date-chip {
+    font-size: 11px; padding: 5px 12px; border-radius: 20px;
+    background: var(--gray-light); border: 1px solid var(--border);
+    color: var(--text3); font-weight: 500;
+  }
+  .progress-chip {
+    font-size: 11px; padding: 5px 12px; border-radius: 20px;
+    background: var(--purple-mid); color: var(--purple);
+    font-weight: 600; border: 1px solid #c4b5fd;
+  }
+
+  /* TABS */
+  .tabs-bar {
+    display: flex; gap: 2px; padding: 10px 0 0; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    padding: 8px 16px; border-radius: 8px 8px 0 0;
+    border: none; background: transparent; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    color: var(--text3); white-space: nowrap; position: relative;
+    transition: all 0.15s; border-bottom: 2px solid transparent;
+  }
+  .tab-btn:hover { color: var(--text); background: var(--bg2); }
+  .tab-btn.active { color: var(--purple); border-bottom: 2px solid var(--purple); background: var(--purple-light); }
+  .tab-dot {
+    display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--red); margin-left: 5px; vertical-align: middle; margin-bottom: 1px;
+  }
+
+  /* MAIN */
+  .main { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeIn 0.15s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* CARDS */
+  .card {
+    background: white; border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text3); margin-bottom: 14px;
+  }
+  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 14px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+  @media (max-width: 768px) {
+    .grid3, .grid4 { grid-template-columns: 1fr 1fr; }
+    .grid2 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .grid3, .grid4 { grid-template-columns: 1fr; }
+  }
+
+  /* METRIC CARDS */
+  .metric-card {
+    background: var(--bg2); border-radius: var(--radius-sm);
+    padding: 14px 16px; border: 1px solid var(--border);
+  }
+  .metric-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; font-weight: 500; }
+  .metric-val { font-size: 22px; font-weight: 600; color: var(--text); }
+  .metric-sub { font-size: 11px; color: var(--text4); margin-top: 3px; }
+
+  /* CHECKLIST */
+  .check-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 7px 0; border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item input[type=checkbox] {
+    margin-top: 2px; width: 15px; height: 15px; cursor: pointer;
+    accent-color: var(--purple); flex-shrink: 0;
+  }
+  .check-label { font-size: 13px; color: var(--text2); line-height: 1.4; flex: 1; }
+  .check-label.done { text-decoration: line-through; color: var(--text4); }
+
+  /* BADGES */
+  .badge {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 20px; letter-spacing: 0.02em;
+  }
+  .badge-red { background: var(--red-mid); color: #b91c1c; }
+  .badge-amber { background: var(--amber-mid); color: #92400e; }
+  .badge-green { background: var(--green-mid); color: #065f46; }
+  .badge-purple { background: var(--purple-mid); color: #5b21b6; }
+  .badge-blue { background: var(--blue-mid); color: #1e40af; }
+  .badge-pink { background: var(--pink-mid); color: #9d174d; }
+  .badge-teal { background: var(--teal-mid); color: #0f766e; }
+
+  /* ALERTS */
+  .alert {
+    border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 14px;
+    font-size: 13px; display: flex; align-items: flex-start; gap: 10px;
+    font-weight: 500;
+  }
+  .alert-danger { background: var(--red-mid); color: #991b1b; border: 1px solid #fca5a5; }
+  .alert-warn { background: var(--amber-mid); color: #78350f; border: 1px solid #fcd34d; }
+  .alert-info { background: var(--blue-mid); color: #1e3a8a; border: 1px solid #93c5fd; }
+  .alert-success { background: var(--green-mid); color: #064e3b; border: 1px solid #6ee7b7; }
+
+  /* PROGRESS BAR */
+  .prog-wrap { height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden; margin-top: 6px; }
+  .prog-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+  .prog-red { background: var(--red); }
+  .prog-amber { background: var(--amber); }
+  .prog-green { background: var(--green); }
+  .prog-purple { background: var(--purple); }
+  .prog-blue { background: var(--blue); }
+  .prog-teal { background: var(--teal); }
+  .prog-pink { background: var(--pink); }
+
+  /* ROWS */
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .row:last-child { border-bottom: none; }
+  .row-label { color: var(--text2); }
+  .row-val { color: var(--text3); font-size: 12px; }
+
+  /* TODAY HERO */
+  .today-hero {
+    background: linear-gradient(135deg, #f5f3ff 0%, #fdf2f8 100%);
+    border: 1px solid #e9d5ff; border-radius: var(--radius-lg);
+    padding: 20px 24px; margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .today-hero h2 { font-size: 20px; font-weight: 600; color: #4c1d95; }
+  .today-hero p { font-size: 13px; color: var(--purple); margin-top: 3px; }
+  .today-pct { font-size: 36px; font-weight: 700; color: #5b21b6; }
+  .today-pct-label { font-size: 11px; color: var(--purple); text-align: right; }
+
+  /* HABIT GRID */
+  .habit-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .habit-table th { font-size: 11px; font-weight: 600; color: var(--text3); padding: 6px 8px; text-align: center; border-bottom: 1px solid var(--border); }
+  .habit-table th:first-child { text-align: left; }
+  .habit-table td { padding: 8px; text-align: center; border-bottom: 1px solid var(--border); }
+  .habit-table td:first-child { text-align: left; color: var(--text2); font-size: 13px; }
+  .habit-table tr:last-child td { border-bottom: none; }
+  .habit-table input[type=checkbox] { accent-color: var(--purple); width: 15px; height: 15px; cursor: pointer; }
+  .streak-val { font-weight: 600; color: var(--purple); }
+
+  /* CALENDAR EVENTS */
+  .cal-item { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .cal-item:last-child { border-bottom: none; }
+  .cal-date { min-width: 56px; font-size: 11px; font-weight: 600; color: var(--text3); }
+  .cal-name { flex: 1; font-size: 13px; color: var(--text2); }
+
+  /* PEOPLE */
+  .people-row { display: grid; grid-template-columns: 1fr 90px 90px 36px; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .people-row:last-child { border-bottom: none; }
+  .people-head { font-size: 11px; font-weight: 600; color: var(--text3); display: grid; grid-template-columns: 1fr 90px 90px 36px; gap: 8px; padding-bottom: 8px; border-bottom: 2px solid var(--border2); margin-bottom: 4px; }
+
+  /* MONEY */
+  .money-row { display: grid; grid-template-columns: 1fr 100px 80px; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .money-row:last-child { border-bottom: none; }
+  .money-head { font-size: 11px; font-weight: 600; color: var(--text3); display: grid; grid-template-columns: 1fr 100px 80px; gap: 8px; padding-bottom: 8px; border-bottom: 2px solid var(--border2); margin-bottom: 4px; }
+
+  /* GOAL ITEM */
+  .goal-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .goal-item:last-child { border-bottom: none; }
+  .goal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .goal-name { font-size: 13px; font-weight: 500; color: var(--text2); }
+  .goal-amt { font-size: 12px; color: var(--text3); }
+
+  /* NOTION LINKS */
+  .notion-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--purple); text-decoration: none;
+    padding: 5px 12px; border-radius: 8px;
+    background: var(--purple-light); border: 1px solid #c4b5fd;
+    margin-top: 10px; font-weight: 500; transition: all 0.15s;
+  }
+  .notion-btn:hover { background: var(--purple-mid); }
+
+  /* PAYCHECK PILLS */
+  .paycheck-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .pc-pill {
+    font-size: 12px; padding: 5px 14px; border-radius: 20px;
+    font-weight: 500; border: 1px solid var(--border);
+  }
+  .pc-done { background: var(--green-mid); color: #065f46; border-color: #6ee7b7; }
+  .pc-next { background: var(--purple-mid); color: #5b21b6; border-color: #c4b5fd; }
+  .pc-future { background: var(--bg2); color: var(--text3); }
+  .pc-bonus { background: var(--amber-mid); color: #92400e; border-color: #fcd34d; }
+
+  /* SECTION DIVIDER */
+  .section-gap { margin-bottom: 16px; }
+  .section-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+  /* COLOR ACCENT CARDS */
+  .accent-card { border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 10px; font-size: 13px; }
+  .accent-pink { background: var(--pink-light); border: 1px solid #fbcfe8; }
+  .accent-purple { background: var(--purple-light); border: 1px solid #ddd6fe; }
+  .accent-green { background: var(--green-light); border: 1px solid #a7f3d0; }
+  .accent-amber { background: var(--amber-light); border: 1px solid #fde68a; }
+  .accent-red { background: var(--red-light); border: 1px solid #fecaca; }
+  .accent-blue { background: var(--blue-light); border: 1px solid #bfdbfe; }
+  .accent-teal { background: var(--teal-light); border: 1px solid #99f6e4; }
+
+  /* RULE BOX */
+  .rule-box { background: var(--amber-light); border: 1px solid #fde68a; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; color: #78350f; margin-top: 12px; }
+  .rule-box strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; color: #92400e; }
+
+  /* SCROLL */
+  html { scroll-behavior: smooth; }
+
+  /* FITNESS COUNTERS */
+  .fitness-counter { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+
+  /* NOTION CALLOUT STYLE INFO */
+  .info-note { font-size: 12px; color: var(--text3); background: var(--bg2); border-radius: var(--radius-sm); padding: 10px 14px; border-left: 3px solid var(--purple); margin-bottom: 12px; }
+
+  input[type=checkbox] { cursor: pointer; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="header-brand">
+      <div class="logo">🌸</div>
+      <div>
+        <h1>Sahana's life planner 2026</h1>
+        <p>$88k · STEM OPT ✅ · Building toward $150k → H1B → CTA → House 🚀</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="date-chip" id="datechip">Loading...</div>
+      <div class="progress-chip" id="progresschip">0% today</div>
+    </div>
+  </div>
+  <div class="tabs-bar">
+    <button class="tab-btn active" onclick="switchTab('today')">☀️ Today<span class="tab-dot"></span></button>
+    <button class="tab-btn" onclick="switchTab('money')">💰 Money<span class="tab-dot"></span></button>
+    <button class="tab-btn" onclick="switchTab('tasks')">✅ Tasks</button>
+    <button class="tab-btn" onclick="switchTab('habits')">🌱 Habits</button>
+    <button class="tab-btn" onclick="switchTab('calendar')">📅 Calendar<span class="tab-dot"></span></button>
+    <button class="tab-btn" onclick="switchTab('people')">💖 People</button>
+    <button class="tab-btn" onclick="switchTab('health')">💪 Health<span class="tab-dot"></span></button>
+    <button class="tab-btn" onclick="switchTab('goals')">🎯 Goals</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════ TODAY ═══════════════ -->
+<div id="tab-today" class="panel active">
+
+  <div class="today-hero">
+    <div>
+      <h2 id="greeting">Good morning, Sahana!</h2>
+      <p id="work-mode">Office day (Mon–Wed)</p>
+    </div>
+    <div>
+      <div class="today-pct" id="today-pct">0%</div>
+      <div class="today-pct-label">done today</div>
+    </div>
+  </div>
+
+  <div class="alert alert-danger">
+    ⚠️ <span><strong>Urgent:</strong> BoA at 90% — pay ASAP · Dental cavity overdue · Log Apr 28 UKG sick day</span>
+  </div>
+
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">Work — JEOL</div>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">Office / WFH check-in</span></label>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">Check Salesforce tasks</span></label>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">I-983 / OPT compliance ok?</span></label>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">Log Apr 28 sick day UKG <span class="badge badge-red">overdue</span></span></label>
+      <label class="check-item" id="fri1" style="display:none"><input type="checkbox" onchange="updatePct()"><span class="check-label">Submit UKG timesheet <span class="badge badge-red">friday</span></span></label>
+      <label class="check-item" id="fri2" style="display:none"><input type="checkbox" onchange="updatePct()"><span class="check-label">Submit WFH sheet <span class="badge badge-red">friday</span></span></label>
+    </div>
+    <div class="card">
+      <div class="card-title">Finance</div>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">Pay Zolve incremental</span></label>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">Check BoA balance</span></label>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">Log any expenses today</span></label>
+      <div style="margin-top:14px; padding:12px; background:var(--purple-light); border-radius:8px; border:1px solid #ddd6fe;">
+        <div style="font-size:11px;color:var(--purple);font-weight:600;margin-bottom:4px;">NEXT PAYCHECK</div>
+        <div style="font-size:18px;font-weight:700;color:#5b21b6;" id="next-pc">May 9, 2026</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Study + habits</div>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">30 min Trailhead</span></label>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">Iron supplement + Vit C</span></label>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">Detox water on wake-up</span></label>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">8 glasses water</span></label>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">Skincare AM + PM</span></label>
+      <label class="check-item"><input type="checkbox" onchange="updatePct()"><span class="check-label">Sleep by 11pm</span></label>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Today's meals</div>
+      <div class="row"><span class="row-label">Wake</span><span class="row-val">Detox water</span></div>
+      <div class="row"><span class="row-label">Breakfast</span><span class="row-val">South Indian</span></div>
+      <div class="row"><span class="row-label">12pm</span><span class="row-val">Fruit / juice</span></div>
+      <div class="row"><span class="row-label">2pm</span><span class="row-val">Lunch (iron-rich!)</span></div>
+      <div class="row"><span class="row-label">4:30pm</span><span class="row-val">Ladoo + snack</span></div>
+      <div class="row"><span class="row-label">8:45pm</span><span class="row-val">Dinner</span></div>
+      <div class="row"><span class="row-label">11pm</span><span class="row-val">Sleep</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Upcoming this week</div>
+      <div class="cal-item"><span class="cal-date">Ongoing</span><span class="cal-name">STEM OPT compliance check</span><span class="badge badge-amber">monthly</span></div>
+      <div class="cal-item"><span class="cal-date">May 9</span><span class="cal-name">Paycheck arrives 💸</span><span class="badge badge-green">$</span></div>
+      <div class="cal-item"><span class="cal-date">Every Fri</span><span class="cal-name">UKG + WFH timesheet due</span><span class="badge badge-red">weekly</span></div>
+      <div class="cal-item"><span class="cal-date">Jun 1</span><span class="cal-name">Framingham move!</span><span class="badge badge-purple">soon</span></div>
+      <div class="cal-item"><span class="cal-date">Jun 28</span><span class="cal-name">Remind: Jayanth bday gift</span><span class="badge badge-pink">reminder</span></div>
+      <div class="cal-item"><span class="cal-date">Jul 24</span><span class="cal-name">Sahana's birthday 🎂</span><span class="badge badge-pink">yours!</span></div>
+    </div>
+  </div>
+
+  <a class="notion-btn" href="https://www.notion.so/3526f2ea9f8981d98d8dd054c7373fe7" target="_blank">↗ Open in Notion</a>
+</div>
+
+<!-- ═══════════════ MONEY ═══════════════ -->
+<div id="tab-money" class="panel">
+
+  <div class="grid4">
+    <div class="metric-card"><div class="metric-label">Annual salary</div><div class="metric-val">$88k</div><div class="metric-sub">Biweekly paycheck</div></div>
+    <div class="metric-card"><div class="metric-label">BoA card</div><div class="metric-val" style="color:var(--red)">$900/$1k</div><div class="metric-sub" style="color:var(--red)">90% — urgent!</div></div>
+    <div class="metric-card"><div class="metric-label">Zolve card</div><div class="metric-val" style="color:var(--amber)">$1k/$2k</div><div class="metric-sub">50% — incremental</div></div>
+    <div class="metric-card"><div class="metric-label">India CCs total</div><div class="metric-val" style="color:var(--red)">₹1.8L</div><div class="metric-sub">HDFC + ICICI high APR</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Fixed monthly bills — check when paid</div>
+      <div class="money-head"><span>Bill</span><span>Amount</span><span>Paid?</span></div>
+      <div class="money-row"><span>Education loan EMI</span><span style="color:var(--red);font-weight:500">₹55L @ 12%</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> done</label></div>
+      <div class="money-row"><span>HDFC min payment</span><span style="color:var(--amber);font-weight:500">₹5k+ /mo</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> done</label></div>
+      <div class="money-row"><span>ICICI min payment</span><span style="color:var(--amber);font-weight:500">₹5k+ /mo</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> done</label></div>
+      <div class="money-row"><span>BoA credit card</span><span style="color:var(--red);font-weight:500">ASAP!</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> done</label></div>
+      <div class="money-row"><span>Zolve credit card</span><span style="color:var(--amber);font-weight:500">incremental</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> done</label></div>
+      <div class="money-row"><span>Clothing budget</span><span>$100/mo</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> used</label></div>
+      <div class="money-row"><span>Skin + hair care</span><span>$100/mo</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> used</label></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Personal debts</div>
+      <div class="money-head"><span>Person</span><span>Amount</span><span>Strategy</span></div>
+      <div class="money-row"><span style="font-weight:500">Deepak</span><span style="color:var(--red);font-weight:600">$7,000</span><span class="badge badge-amber">incremental</span></div>
+      <div class="money-row"><span style="font-weight:500">Raksha</span><span style="color:var(--red);font-weight:600">$1,000</span><span class="badge badge-amber">incremental</span></div>
+      <div class="money-row"><span style="font-weight:500">Chandu</span><span style="color:var(--amber);font-weight:600">$500</span><span class="badge badge-amber">incremental</span></div>
+      <div class="money-row"><span style="font-weight:500">Deepak</span><span style="color:var(--green);font-weight:600">$300</span><span class="badge badge-green">pay off first!</span></div>
+      <div class="rule-box">
+        <strong>Money rule</strong>
+        Pay off fully only if balance under $300. Otherwise pay incrementally. Under $100 item → just buy it.
+      </div>
+    </div>
+  </div>
+
+  <div class="card section-gap">
+    <div class="card-title">Savings goals</div>
+    <div class="goal-item">
+      <div class="goal-header"><span class="goal-name">🚨 Emergency fund</span><span class="goal-amt" style="color:var(--red)">$1 / $7,500</span></div>
+      <div class="prog-wrap"><div class="prog-fill prog-red" style="width:0.01%"></div></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Top priority — before anything else</div>
+    </div>
+    <div class="goal-item">
+      <div class="goal-header"><span class="goal-name">🏠 Framingham move fund</span><span class="goal-amt" style="color:var(--amber)">$0 / $2,000</span></div>
+      <div class="prog-wrap"><div class="prog-fill prog-amber" style="width:0%"></div></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Move ~Jun 1, 2026</div>
+    </div>
+    <div class="goal-item">
+      <div class="goal-header"><span class="goal-name">✈️ Udaipur Taj trip</span><span class="goal-amt" style="color:var(--blue)">$0 / $3,000</span></div>
+      <div class="prog-wrap"><div class="prog-fill prog-blue" style="width:0%"></div></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Dec 2026 · Book flights by Sept</div>
+    </div>
+    <div class="goal-item">
+      <div class="goal-header"><span class="goal-name">💍 Wedding fund</span><span class="goal-amt" style="color:var(--pink)">$0 / $5,000</span></div>
+      <div class="prog-wrap"><div class="prog-fill prog-pink" style="width:0%"></div></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">US church ceremony + Coimbatore resort</div>
+    </div>
+    <div class="goal-item" style="border:none">
+      <div class="goal-header"><span class="goal-name">🎓 Salesforce PD1 cert</span><span class="goal-amt" style="color:var(--green)">$0 / $500</span></div>
+      <div class="prog-wrap"><div class="prog-fill prog-green" style="width:0%"></div></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Exam target: Aug 2026</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Paycheck calendar — biweekly from Apr 10</div>
+    <div class="paycheck-pills">
+      <span class="pc-pill pc-done">Apr 10 ✓</span>
+      <span class="pc-pill pc-done">Apr 25 ✓</span>
+      <span class="pc-pill pc-next">May 9 ← next</span>
+      <span class="pc-pill pc-future">May 23</span>
+      <span class="pc-pill pc-future">Jun 6</span>
+      <span class="pc-pill pc-bonus">Jun 20 🎉 3rd paycheck!</span>
+      <span class="pc-pill pc-future">Jul 4</span>
+      <span class="pc-pill pc-future">Jul 18</span>
+    </div>
+  </div>
+
+  <a class="notion-btn" href="https://www.notion.so/3576f2ea9f89818bbb05d7b4a39ecb15" target="_blank">↗ Open Finance in Notion</a>
+</div>
+
+<!-- ═══════════════ TASKS ═══════════════ -->
+<div id="tab-tasks" class="panel">
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">Work — JEOL</div>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Check Salesforce queue</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">I-983 OPT compliance check</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">STEM OPT reporting update</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Log Apr 28 sick day in UKG <span class="badge badge-red">overdue</span></span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Friday: UKG timesheet <span class="badge badge-red">weekly</span></span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Friday: WFH sheet <span class="badge badge-red">weekly</span></span></label>
+    </div>
+    <div class="card">
+      <div class="card-title">Salesforce study</div>
+      <label class="check-item"><input type="checkbox"><span class="check-label">30 min Trailhead today</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Review yesterday's module</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Practice quiz / flashcards</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Update study log</span></label>
+      <div style="margin-top:14px;padding:12px;background:var(--purple-light);border-radius:8px;border:1px solid #ddd6fe">
+        <div style="font-size:11px;color:var(--purple);font-weight:600">PD1 target: Aug 2026</div>
+        <div class="prog-wrap" style="margin-top:6px"><div class="prog-fill prog-purple" style="width:5%"></div></div>
+        <div style="font-size:11px;color:var(--purple);margin-top:4px">~5% complete</div>
+      </div>
+      <a class="notion-btn" href="https://www.notion.so/3576f2ea9f8981bfa8abc3e07d54ce2d" target="_blank">↗ Open Study Tracker</a>
+    </div>
+    <div class="card">
+      <div class="card-title">Personal to-dos</div>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Book dental appointment <span class="badge badge-red">urgent</span></span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Book blood panel test</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Book dermatologist</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Pay Deepak $300 <span class="badge badge-green">pay off!</span></span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Framingham apartment research</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Notify USCIS new address post-move</span></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Framingham move checklist — ~Jun 1</div>
+    <div class="grid2">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--text3);margin-bottom:8px">PRE-MOVE</div>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Finalize apartment / sign lease</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Notify USCIS address change (OPT!)</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Update JEOL HR with new address</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Update bank addresses (Zolve, BoA)</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Pack + label boxes</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Book moving truck / helpers</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Transfer utilities</span></label>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--text3);margin-bottom:8px">POST-MOVE</div>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Update MA driver's license</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Update India family with address</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Find nearest Indian grocery store</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Find pool / gym near Framingham</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Set up apartment essentials</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-label">Update Trailhead / Salesforce address</span></label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ HABITS ═══════════════ -->
+<div id="tab-habits" class="panel">
+  <div class="info-note">Check off each habit daily. Streak = consecutive days without breaking. Don't break the chain! 🔥</div>
+
+  <div class="card section-gap">
+    <div class="card-title">Weekly habit tracker</div>
+    <table class="habit-table">
+      <thead>
+        <tr>
+          <th>Habit</th>
+          <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
+          <th>🔥 Streak</th>
+        </tr>
+      </thead>
+      <tbody id="habit-body"></tbody>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Morning routine</div>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Detox water on wake-up</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">South Indian breakfast</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Iron supplement + Vit C (not tea!)</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Vitamin C serum + SPF sunscreen</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">5 mins Trailhead or reading</span></label>
+    </div>
+    <div class="card">
+      <div class="card-title">Evening routine</div>
+      <label class="check-item"><input type="checkbox"><span class="check-label">8:45pm dinner done</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Double cleanse skincare</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Toner + retinol / night serum</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Journal / reflect 5 mins</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">In bed by 11pm</span></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Self-care cadence — every 2 months</div>
+    <div class="grid4">
+      <div class="metric-card"><div class="metric-label">Spa + facial</div><div style="font-size:14px;font-weight:600;color:var(--text)">Next: Jun 2026</div></div>
+      <div class="metric-card"><div class="metric-label">Nails (mani+pedi)</div><div style="font-size:14px;font-weight:600;color:var(--text)">Next: Jun 2026</div></div>
+      <div class="metric-card"><div class="metric-label">Hair trim + color</div><div style="font-size:14px;font-weight:600;color:var(--text)">Next: Jun 2026</div></div>
+      <div class="metric-card"><div class="metric-label">Budget</div><div style="font-size:14px;font-weight:600;color:var(--text)">$100/mo skin+hair</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CALENDAR ═══════════════ -->
+<div id="tab-calendar" class="panel">
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Big events — 2026</div>
+      <div class="cal-item"><span class="cal-date">Jun 1</span><span class="cal-name">🏠 Move to Framingham</span><span class="badge badge-purple">big</span></div>
+      <div class="cal-item"><span class="cal-date">Jun 28</span><span class="cal-name">Reminder: Jayanth bday gift</span><span class="badge badge-pink">gift</span></div>
+      <div class="cal-item"><span class="cal-date">Jul 24</span><span class="cal-name">🎂 Sahana's birthday!</span><span class="badge badge-pink">yours</span></div>
+      <div class="cal-item"><span class="cal-date">Jul 28</span><span class="cal-name">🎂 Jayanth's birthday</span><span class="badge badge-pink">bday</span></div>
+      <div class="cal-item"><span class="cal-date">Aug 2026</span><span class="cal-name">🎓 Salesforce PD1 exam</span><span class="badge badge-purple">cert</span></div>
+      <div class="cal-item"><span class="cal-date">Dec 2026</span><span class="cal-name">✈️ Udaipur Taj trip</span><span class="badge badge-blue">trip</span></div>
+      <div class="cal-item"><span class="cal-date">Dec 2026</span><span class="cal-name">📊 Year-end review</span><span class="badge badge-green">review</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Birthdays & anniversaries</div>
+      <div class="cal-item"><span class="cal-date">Mar 9</span><span class="cal-name">Appa's birthday</span><span class="badge badge-amber">family</span></div>
+      <div class="cal-item"><span class="cal-date">Mar 11</span><span class="cal-name">Shankar's birthday</span><span class="badge badge-amber">family</span></div>
+      <div class="cal-item"><span class="cal-date">Mar 21</span><span class="cal-name">Parents' anniversary</span><span class="badge badge-pink">anniv</span></div>
+      <div class="cal-item"><span class="cal-date">Jul 24</span><span class="cal-name">Sahana's birthday 🎂</span><span class="badge badge-pink">yours</span></div>
+      <div class="cal-item"><span class="cal-date">Jul 28</span><span class="cal-name">Jayanth's birthday 🎂</span><span class="badge badge-pink">partner</span></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Renewals & compliance</div>
+      <div class="cal-item"><span class="cal-date">Every Fri</span><span class="cal-name">UKG timesheet + WFH sheet</span><span class="badge badge-red">work</span></div>
+      <div class="cal-item"><span class="cal-date">Monthly</span><span class="cal-name">I-983 OPT compliance check</span><span class="badge badge-red">visa</span></div>
+      <div class="cal-item"><span class="cal-date">Every 3mo</span><span class="cal-name">Blood panel (iron/B12/VitD/Ca)</span><span class="badge badge-amber">health</span></div>
+      <div class="cal-item"><span class="cal-date">Every 2mo</span><span class="cal-name">Spa + facial + nails + hair</span><span class="badge badge-pink">self-care</span></div>
+      <div class="cal-item"><span class="cal-date">Annual</span><span class="cal-name">Gynecologist checkup</span><span class="badge badge-blue">health</span></div>
+      <div class="cal-item"><span class="cal-date">Annual</span><span class="cal-name">Eye doctor visit</span><span class="badge badge-blue">health</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Work schedule</div>
+      <div class="row"><span class="row-label">Mon–Wed</span><span style="font-size:12px;color:var(--purple);font-weight:600">Office (JEOL)</span></div>
+      <div class="row"><span class="row-label">Thu–Fri</span><span style="font-size:12px;color:var(--green);font-weight:600">WFH</span></div>
+      <div class="row"><span class="row-label">Every Friday</span><span style="font-size:12px;color:var(--red);font-weight:600">UKG + WFH sheets due</span></div>
+      <div class="row"><span class="row-label">1st of month</span><span class="row-val">STEM OPT compliance</span></div>
+      <div class="row"><span class="row-label">Biweekly</span><span style="font-size:12px;color:var(--green);font-weight:600">Paycheck day 💸</span></div>
+      <a class="notion-btn" href="https://www.notion.so/3576f2ea9f8981e6a331da327354da67" target="_blank">↗ Open Calendar in Notion</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PEOPLE ═══════════════ -->
+<div id="tab-people" class="panel">
+  <div class="info-note">Daily = call. Monthly = message. 2-month / 3-month = check in. Don't let life get in the way of your people. 💖</div>
+  <div class="card section-gap">
+    <div class="card-title">Contact cadence — May 2026</div>
+    <div class="people-head"><span>Person</span><span>Frequency</span><span>Relationship</span><span>Done</span></div>
+    <div class="people-row"><span>Appa + Amma</span><span class="badge badge-red">daily</span><span style="font-size:12px;color:var(--text3)">Parents</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Jayanth</span><span class="badge badge-red">daily</span><span style="font-size:12px;color:var(--text3)">Partner</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Nivi + Jovial</span><span class="badge badge-amber">monthly</span><span style="font-size:12px;color:var(--text3)">Close family</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Gundoo Nivi</span><span class="badge badge-amber">monthly msg</span><span style="font-size:12px;color:var(--text3)">Friend</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Nila</span><span class="badge badge-amber">monthly msg</span><span style="font-size:12px;color:var(--text3)">Friend</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Dheeraj</span><span class="badge badge-amber">monthly msg</span><span style="font-size:12px;color:var(--text3)">Friend</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Chandhu</span><span class="badge badge-amber">monthly msg</span><span style="font-size:12px;color:var(--text3)">Friend</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Aththa (Grandma)</span><span class="badge badge-blue">2 months</span><span style="font-size:12px;color:var(--text3)">Grandma</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Kumaresh</span><span class="badge badge-blue">2 months</span><span style="font-size:12px;color:var(--text3)">Family</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Deepak (cousin)</span><span class="badge badge-blue">2 months</span><span style="font-size:12px;color:var(--text3)">Cousin</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Loki / Kish / Midhun</span><span class="badge badge-blue">2 months</span><span style="font-size:12px;color:var(--text3)">Cousins</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Baby Perima</span><span class="badge badge-blue">2 months</span><span style="font-size:12px;color:var(--text3)">Family</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Shankar</span><span class="badge badge-green">3 months</span><span style="font-size:12px;color:var(--text3)">Brother/relative</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+    <div class="people-row"><span>Jagadha</span><span class="badge badge-green">3 months</span><span style="font-size:12px;color:var(--text3)">Sister/relative</span><input type="checkbox" style="accent-color:var(--purple)"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Gift planning</div>
+    <div class="cal-item"><span class="cal-date">Jun 28</span><span class="cal-name">⚠️ Start Jayanth's bday gift planning</span><span class="badge badge-red">reminder</span></div>
+    <div class="cal-item"><span class="cal-date">Jul 24</span><span class="cal-name">Sahana's birthday — plan something for yourself!</span><span class="badge badge-pink">you</span></div>
+    <div class="cal-item"><span class="cal-date">Jul 28</span><span class="cal-name">Jayanth's birthday</span><span class="badge badge-pink">partner</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════ HEALTH ═══════════════ -->
+<div id="tab-health" class="panel">
+  <div class="alert alert-danger">⚠️ <span>5 medical appointments overdue — book all of them this week!</span></div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Medical appointments — book now</div>
+      <div class="money-head"><span>Appointment</span><span>Urgency</span><span>Booked</span></div>
+      <div class="money-row"><span>🦷 Dental (cavity!)</span><span class="badge badge-red">urgent</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> done</label></div>
+      <div class="money-row"><span>🩸 Blood panel</span><span class="badge badge-red">3-monthly</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> done</label></div>
+      <div class="money-row"><span>🧴 Dermatologist</span><span class="badge badge-amber">soon</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> done</label></div>
+      <div class="money-row"><span>🩺 Gynecologist (annual)</span><span class="badge badge-amber">annual</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> done</label></div>
+      <div class="money-row"><span>👁️ Eye doctor</span><span class="badge badge-amber">annual</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> done</label></div>
+      <div class="money-row"><span>✨ Microblading (eyebrows)</span><span class="badge badge-green">wanted</span><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" style="accent-color:var(--purple)"> done</label></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Daily supplements</div>
+      <label class="check-item"><input type="checkbox"><span class="check-label">🩸 Iron supplement (with Vit C, NOT tea/coffee) <span class="badge badge-red">daily</span></span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">🧬 B12 supplement <span class="badge badge-red">daily</span></span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">🦴 Calcium-rich food (milk/ragi/sesame) <span class="badge badge-red">daily</span></span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">☀️ Vitamin D <span class="badge badge-amber">weekly</span></span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">🌿 Probiotic (curd) <span class="badge badge-green">daily</span></span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">🫙 Prebiotic (banana/oats) <span class="badge badge-green">daily</span></span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">💧 Detox water + 8 glasses <span class="badge badge-blue">daily</span></span></label>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">Swimming</div>
+      <div class="fitness-counter" style="color:var(--blue)">0 / 2</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:12px">sessions this week</div>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Session 1</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Session 2</span></label>
+      <div style="font-size:11px;color:var(--blue);margin-top:8px">Find pool near Framingham after Jun 1!</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Yoga / pilates</div>
+      <div class="fitness-counter" style="color:var(--purple)">0 / 3</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:12px">sessions this week</div>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Session 1 (Thu WFH)</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Session 2 (Fri WFH)</span></label>
+      <label class="check-item"><input type="checkbox"><span class="check-label">Session 3</span></label>
+    </div>
+    <div class="card">
+      <div class="card-title">Vibration plate</div>
+      <div class="fitness-counter" style="color:var(--teal)">0 / 7</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:12px">days this week</div>
+      <label class="check-item"><input type="checkbox"><span class="check-label">10 min daily (do while watching YouTube!)</span></label>
+      <div style="margin-top:12px;padding:10px;background:var(--teal-light);border-radius:8px;border:1px solid var(--teal-mid);font-size:12px;color:#0f766e">
+        Easy win — do it during your YouTube time!
+      </div>
+    </div>
+  </div>
+
+  <a class="notion-btn" href="https://www.notion.so/3576f2ea9f8981ecbb1bc2d2371a5e13" target="_blank">↗ Open Health in Notion</a>
+</div>
+
+<!-- ═══════════════ GOALS ═══════════════ -->
+<div id="tab-goals" class="panel">
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Career roadmap</div>
+      <div class="goal-item">
+        <div class="goal-header"><span class="goal-name"><span class="badge badge-green">now</span> &nbsp;Salesforce Admin @ JEOL</span><span class="goal-amt" style="color:var(--green);font-weight:700">$88k</span></div>
+        <div class="prog-wrap"><div class="prog-fill prog-green" style="width:100%"></div></div>
+      </div>
+      <div class="goal-item">
+        <div class="goal-header"><span class="goal-name"><span class="badge badge-purple">2026</span> &nbsp;PD1 cert → salary bump</span><span class="goal-amt">~5%</span></div>
+        <div class="prog-wrap"><div class="prog-fill prog-purple" style="width:5%"></div></div>
+      </div>
+      <div class="goal-item">
+        <div class="goal-header"><span class="goal-name"><span class="badge badge-blue">2027</span> &nbsp;H1B sponsorship → $150k</span><span class="goal-amt">0%</span></div>
+        <div class="prog-wrap"><div class="prog-fill prog-blue" style="width:0%"></div></div>
+      </div>
+      <div class="goal-item">
+        <div class="goal-header"><span class="goal-name"><span class="badge badge-amber">2028</span> &nbsp;Salesforce CTA certification</span><span class="goal-amt">0%</span></div>
+        <div class="prog-wrap"><div class="prog-fill prog-amber" style="width:0%"></div></div>
+      </div>
+      <div class="goal-item" style="border:none">
+        <div class="goal-header"><span class="goal-name"><span class="badge badge-teal">future</span> &nbsp;House + gas station business</span><span class="goal-amt">dreaming</span></div>
+        <div class="prog-wrap"><div class="prog-fill prog-teal" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">YouTube channels</div>
+      <div class="goal-item">
+        <div class="goal-header"><span class="goal-name">📱 The CRM Girl</span><span class="badge badge-amber">not launched</span></div>
+        <div style="font-size:12px;color:var(--text3);margin:4px 0 6px">Salesforce / tech education — start here first!</div>
+        <div class="prog-wrap"><div class="prog-fill prog-purple" style="width:0%"></div></div>
+      </div>
+      <div class="goal-item">
+        <div class="goal-header"><span class="goal-name">💰 Paisa Matter</span><span class="badge badge-amber">not launched</span></div>
+        <div style="font-size:12px;color:var(--text3);margin:4px 0 6px">Finance and money content</div>
+        <div class="prog-wrap"><div class="prog-fill prog-green" style="width:0%"></div></div>
+      </div>
+      <div class="goal-item" style="border:none">
+        <div class="goal-header"><span class="goal-name">🎬 Sahana Blog</span><span class="badge badge-amber">not launched</span></div>
+        <div style="font-size:12px;color:var(--text3);margin:4px 0 6px">Personal lifestyle vlog</div>
+        <div class="prog-wrap"><div class="prog-fill prog-teal" style="width:0%"></div></div>
+      </div>
+      <a class="notion-btn" href="https://www.notion.so/3576f2ea9f89815fb93eececbf681638" target="_blank">↗ Open YouTube Planner</a>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Wedding & relationship</div>
+      <div class="row"><span class="row-label">India ceremony</span><span class="row-val">Coimbatore resort, 3 days</span></div>
+      <div class="row"><span class="row-label">Day 1</span><span class="row-val">Haldi + Mehendi</span></div>
+      <div class="row"><span class="row-label">Day 2</span><span class="row-val">Engagement / Nalangu</span></div>
+      <div class="row"><span class="row-label">Day 3</span><span class="row-val">Main wedding ceremony</span></div>
+      <div class="row"><span class="row-label">US ceremony</span><span class="row-val">Church signing, MA</span></div>
+      <div class="row"><span class="row-label">Honeymoon ideas</span><span class="row-val">Maldives / Bali / Europe</span></div>
+      <div class="row"><span class="row-label">Wedding fund</span><span style="font-size:12px;color:var(--red);font-weight:600">$0 / $5,000</span></div>
+      <div class="row"><span class="row-label">Jayanth's job</span><span style="font-size:12px;color:var(--amber);font-weight:500">Late-stage ~$120k</span></div>
+      <a class="notion-btn" href="https://www.notion.so/3576f2ea9f8981d89778f7e64f6db812" target="_blank">↗ Open Wedding Planner</a>
+    </div>
+    <div class="card">
+      <div class="card-title">Udaipur trip — Dec 2026</div>
+      <div class="row"><span class="row-label">Budget target</span><span style="font-size:13px;font-weight:600;color:var(--text)">~$3,000</span></div>
+      <div class="row"><span class="row-label">Saved so far</span><span style="font-size:12px;color:var(--red);font-weight:600">$0</span></div>
+      <div class="row"><span class="row-label">Flights</span><span class="row-val">BOS → BOM → UDR</span></div>
+      <div class="row"><span class="row-label">Hotel</span><span class="row-val">Taj Lake Palace</span></div>
+      <div class="row"><span class="row-label">Book flights by</span><span style="font-size:12px;color:var(--amber);font-weight:600">Sept 2026</span></div>
+      <div class="row"><span class="row-label">Sights</span><span class="row-val">City Palace, Lake Pichola</span></div>
+      <div style="margin-top:12px">
+        <div class="goal-header"><span class="goal-name">Trip fund progress</span><span class="goal-amt" style="color:var(--red)">$0/$3,000</span></div>
+        <div class="prog-wrap"><div class="prog-fill prog-blue" style="width:0%"></div></div>
+      </div>
+      <a class="notion-btn" href="https://www.notion.so/3576f2ea9f8981979439c9b316e0a647" target="_blank">↗ Open Udaipur Planner</a>
+    </div>
+  </div>
+
+  <div class="accent-card accent-purple" style="text-align:center; padding: 20px;">
+    <div style="font-size:13px;color:#5b21b6;font-weight:500;line-height:1.8">
+      🌸 calm money · 💜 clear plan · 💚 consistent wins · 🧡 your life, designed by you<br>
+      <strong style="font-size:14px">you've got this, Sahana ⛩️</strong>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+const HABITS = ['Detox water','Iron supplement','8 glasses water','Trailhead study','Skincare routine','Sleep by 11pm','Exercise / move'];
+
+function buildHabits() {
+  const tbody = document.getElementById('habit-body');
+  if (!tbody) return;
+  HABITS.forEach((h, hi) => {
+    const tr = document.createElement('tr');
+    let cells = `<td>${h}</td>`;
+    for (let d = 0; d < 7; d++) {
+      cells += `<td><input type="checkbox" id="h${hi}d${d}" onchange="calcStreak(${hi})"></td>`;
+    }
+    cells += `<td><span class="streak-val" id="s${hi}">0</span></td>`;
+    tr.innerHTML = cells;
+    tbody.appendChild(tr);
+  });
+}
+
+function calcStreak(hi) {
+  let streak = 0;
+  for (let d = 6; d >= 0; d--) {
+    const cb = document.getElementById(`h${hi}d${d}`);
+    if (cb && cb.checked) streak++; else break;
+  }
+  const el = document.getElementById(`s${hi}`);
+  if (el) el.textContent = streak;
+}
+
+function updatePct() {
+  const all = document.querySelectorAll('#tab-today input[type=checkbox]');
+  let done = 0;
+  all.forEach(cb => {
+    const label = cb.parentElement && cb.parentElement.querySelector('.check-label');
+    if (cb.checked) {
+      done++;
+      if (label) label.classList.add('done');
+    } else {
+      if (label) label.classList.remove('done');
+    }
+  });
+  const pct = all.length ? Math.round((done / all.length) * 100) : 0;
+  const el = document.getElementById('today-pct');
+  const chip = document.getElementById('progresschip');
+  if (el) el.textContent = pct + '%';
+  if (chip) chip.textContent = pct + '% today';
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+    if (b.getAttribute('onclick') === `switchTab('${name}')`) b.classList.add('active');
+  });
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('tab-' + name);
+  if (panel) panel.classList.add('active');
+}
+
+function initDate() {
+  const now = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const day = days[now.getDay()];
+  const chip = document.getElementById('datechip');
+  if (chip) chip.textContent = `${day}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+  const h = now.getHours();
+  const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  const g = document.getElementById('greeting');
+  if (g) g.textContent = `${greet}, Sahana!`;
+
+  const dow = now.getDay();
+  const m = document.getElementById('work-mode');
+  if (m) {
+    if (dow >= 1 && dow <= 3) m.textContent = 'Office day (Mon–Wed)';
+    else if (dow === 4 || dow === 5) m.textContent = 'WFH day (Thu–Fri)';
+    else m.textContent = 'Weekend — rest and recharge 🌿';
+  }
+
+  if (dow === 5) {
+    const f1 = document.getElementById('fri1');
+    const f2 = document.getElementById('fri2');
+    if (f1) f1.style.display = 'flex';
+    if (f2) f2.style.display = 'flex';
+  }
+
+  const paychecks = [
+    new Date(2026,4,9), new Date(2026,4,23), new Date(2026,5,6),
+    new Date(2026,5,20), new Date(2026,6,4), new Date(2026,6,18)
+  ];
+  const next = paychecks.find(d => d > now);
+  if (next) {
+    const el = document.getElementById('next-pc');
+    if (el) el.textContent = `${months[next.getMonth()]} ${next.getDate()}, ${next.getFullYear()}`;
+  }
+}
+
+buildHabits();
+initDate();
+</script>
+</body>
+</html>
